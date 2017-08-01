@@ -4,7 +4,7 @@ A **single** header file for itebd calculations based on the [ITensor library](h
 
 # Installation and Linking
 
-Refer to [ITensor's instruction](http://itensor.org/docs.cgi?page=install). You just need to make sure to add
+Refer to [ITensor's instruction](http://itensor.org/docs.cgi?page=install). You just need to add
 
 `#include "itebd.h"`
 
