@@ -34,7 +34,8 @@ namespace itensor {
         void backup();
         void restore();
 
-        T H, swapAtoB, swapBtoA, GA,GAback, GB,GBback, psi,psiback;
+        T H,U, swapAtoB, swapBtoA, GA,GAback, GB,GBback, psi,psiback;
+        std::complex<double> dt_used_for_U;
         std::vector<T> L,Lback;
         AutoMPO ampo;
         IQIndex sA, sB;
@@ -56,7 +57,7 @@ namespace itensor {
     {
         std::vector<std::vector<IndexQN>> iqA(z), iqB(z);
         for (auto e : sA) {
-            for (int i = 0; i < z; i++) {
+            for (unsigned i = 0; i < z; i++) {
                 iqA[i].emplace_back(Index(e.index.name(), Chi0), e.qn);
                 iqB[i].emplace_back(Index(e.index.name(), Chi0), e.qn);
             }
@@ -65,7 +66,7 @@ namespace itensor {
         auto GAinds = std::vector<IQIndex>(z + 1);
         auto GBinds = std::vector<IQIndex>(z + 1);
         L=std::vector<T>(z);
-        for (int i = 0; i < z; i++) {
+        for (unsigned i = 0; i < z; i++) {
             A[i] = IQIndex("A", std::move(iqA[i]));
             B[i] = IQIndex("B", std::move(iqB[i]));
             L[i] = IQTensor(A[i], B[i]);  //automatically converted to ITensor if I=Index
@@ -97,6 +98,7 @@ namespace itensor {
         }
         auto Hmpo = toMPO<T>(ampo);
         H = Hmpo.A(1) * Hmpo.A(2);
+        dt_used_for_U = 0;
         swapAtoB = delta(dag(sA), sB);
         swapBtoA = delta(sA, dag(sB));
         add_time_entropy();
@@ -105,12 +107,16 @@ namespace itensor {
 /*----------------------------Stepper----------------------------------*/
     template<typename I,unsigned z>
     double itebd<I,z>::step(std::complex<double> dt, size_t steps, double thres, int maxm) {
-        auto Uev = toExpH<T>(ampo, dt * Cplx_i);
-        auto U = Uev.A(1) * Uev.A(2);
+        // auto Uev = toExpH<T>(ampo, dt * Cplx_i);
+        // auto U = Uev.A(1) * Uev.A(2);
+        if (dt_used_for_U!=dt){
+            U = expHermitian(H,-dt * Cplx_i);
+            dt_used_for_U = dt;
+        }
         T Upsi;
 
         auto invL=std::vector<T>(z);
-        for(int i=1;i<z;i++){ //as L[0] is recomputed immediately below
+        for(unsigned i=1;i<z;i++){ //as L[0] is recomputed immediately below
             auto Ai = commonIndex(L[i % z], GA),
                  Bi = commonIndex(L[i % z], GB);
             invL[i]=T(Ai, Bi);
@@ -123,15 +129,15 @@ namespace itensor {
         if (thres) svdargs.add("Cutoff",thres);
         if (maxm) svdargs.add("Maxm",maxm);
         std::complex<double> E;
-        for (int run = 0; run < steps; run++) {
+        for (size_t run = 0; run < steps; run++) {
             E = 0;
-            for (int sh = 0; sh < z; sh++) {
+            for (unsigned sh = 0; sh < z; sh++) {
                 if (sh % 2) {
                     GA *= swapAtoB;
                     GB *= swapBtoA;
                 }
                 psi = GA * L[sh] * GB;
-                for (int i = sh + 1; i < sh + z; i++) {
+                for (unsigned i = sh + 1; i < sh + z; i++) {
                     auto Bi = commonIndex(L[i % z], GB);
                     psi = L[i % z] * prime(psi, Bi) * prime(L[i % z], Bi);
                 }
@@ -140,7 +146,7 @@ namespace itensor {
 
                 auto GAinds = std::vector<I>(z);
                 GAinds[0] = (sh % 2) ? sB : sA;
-                for (int i = 1; i < z; i++) GAinds[i] = commonIndex(L[(sh + i) % z], GB);
+                for (unsigned i = 1; i < z; i++) GAinds[i] = commonIndex(L[(sh + i) % z], GB);
                 GA = T(GAinds);
                 GB = T();
                 svd(Upsi, GA, L[sh], GB, svdargs);
@@ -154,7 +160,7 @@ namespace itensor {
                     if (L[sh].real(Ai(comp), Bi(comp)) != 0)
                         invL[sh].set(Ai(comp), Bi(comp), 1. / L[sh].real(Ai(comp), Bi(comp)));
 
-                for (int i = sh + 1; i < sh + z; i++) {
+                for (unsigned i = sh + 1; i < sh + z; i++) {
                     GA *= dag(invL[i%z]);
                     GB *= dag(invL[i%z]);
                 }
@@ -224,12 +230,17 @@ namespace itensor {
         psi=psiback;
     }
     template<typename I,unsigned z>
-    void itebd<I,z>::setH(const AutoMPO &in) { ampo=in; }
+    void itebd<I,z>::setH(const AutoMPO &in) {
+        ampo=in; 
+        auto Hmpo = toMPO<T>(ampo);
+        H = Hmpo.A(1) * Hmpo.A(2);
+        dt_used_for_U = 0;
+    }
 
     template<typename I,unsigned z>
     ITensorT<I> itebd<I,z>::measure() {
         psi = GA * L[0] * GB;
-        for (int i = 1; i < z; i++) {
+        for (unsigned i = 1; i < z; i++) {
             auto Bi = commonIndex(L[i], GB);
             psi = L[i] * prime(psi, Bi) * prime(L[i], Bi);
         }
