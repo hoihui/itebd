@@ -80,8 +80,6 @@ std::vector<std::complex<double>> itebd::measure(const T &op1A, const T &op2, co
 
 ## Helpful member variables / functions
 
-They are all public, please discipline yourself:
-
 * `.tv` (vector of doubles): the times (in absolute values) traversed by the system since it starts
 
 * `.Sv` (vector of doubles): the entanglement entropies the system had for each time in `.tv`
