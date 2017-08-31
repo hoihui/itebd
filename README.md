@@ -118,4 +118,4 @@ std::vector<std::complex<double>> itebd::measure(const T &op1A, const T &op2, co
 
 # Higher Dimensions?
 
-By instantiating with `z=4` you can try to use this for 2-dimensional systems where the "environment" is never computed. Some call this "["simplified update](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.81.165104)" of iPEPS and saw good results **if the environment is at least computed for measurements**. I have not implemented this yet so it should never be used for serious work in 2D.
+By instantiating with `z=4` you can try to use this for 2-dimensional systems where the "environment" is never computed. Some call this "[simplified update](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.81.165104)" of iPEPS and saw good results **if the environment is at least computed for measurements**. I have not implemented this yet so it should never be used for serious work in 2D. cond-mat.0605597 implements simplified update without calculation of environment.

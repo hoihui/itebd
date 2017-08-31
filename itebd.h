@@ -79,22 +79,16 @@ namespace itensor {
         GA = IQTensor(GAinds);
         GB = IQTensor(GBinds);
 
-        std::cout<<"1"<<std::endl;
         std::vector<IVtype> GAindvals = {IVtype(sA,QNA),IVtype(A[0],QNA),IVtype(A[1],QNB)};
         std::vector<IVtype> GBindvals = {IVtype(sB,QNB),IVtype(B[0],QNA),IVtype(B[1],QNB)};
-        std::cout<<"2"<<std::endl;
         L[0].set(A[0](QNA), B[0](QNA), 1);
         L[1].set(A[1](QNB), B[1](QNB), 1);
-        std::cout<<"3"<<std::endl;
         for (unsigned i = 2; i < z; i++) {
             GAindvals.push_back(IVtype(A[i],1));
             GBindvals.push_back(IVtype(B[i],1));
-        std::cout<<"4"<<std::endl;
             L[i].set(A[i](1), B[i](1), 1);
         }
-        std::cout<<"5"<<std::endl;
         GA.set(GAindvals,1);
-        std::cout<<"6"<<std::endl;
         GB.set(GBindvals,1);
 
         // if (z == 2) {
@@ -219,9 +213,6 @@ namespace itensor {
     void itebd<I,z>::randomize() {
         itensor::randomize(GA);
         itensor::randomize(GB);
-        for(int i=1;i<z;i++) {
-            itensor::randomize(L[i]);
-        }
     }
     template<typename I,unsigned z>
     void itebd<I,z>::resetTime() {
