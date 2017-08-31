@@ -20,7 +20,9 @@ I have created a few examples to reproduce figures of some arXiv papers that uti
 
 * [arXiv:1302.4460](https://arxiv.org/abs/1302.4460) (fig.2a)
 
-* [arXiv:1503.02010](https://arxiv.org/abs/1503.02010) (fig.1a)
+* [arXiv:1503.02010](https://arxiv.org/abs/1503.02010) (fig.1)
+
+* [arXiv:1604.03571](https://arxiv.org/abs/1604.03571) (fig.2a)
 
 
 Please `make` the corresponding file's name you want to compile. For example, `make 1503.02010` generates executable `1503.02010` that produces figure 1 of [arXiv:1503.02010](https://arxiv.org/abs/1503.02010).
