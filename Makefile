@@ -1,4 +1,4 @@
-LIBRARY_DIR=/path/to/itensor
+LIBRARY_DIR=$(HOME)/opt/itensor
 HEADERS=itebd.h
 
 #################################################################
