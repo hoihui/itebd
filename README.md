@@ -1,6 +1,10 @@
 # iTEBD
 
-A **single** header file for itebd calculations based on the [ITensor library](http://itensor.org). I have created a few examples to reproduce figures of some arXiv papers that utilized iTEBD. Please set SOURCE_FILES variable in the CMakeLists.txt to file you wish to compile. By default, it is now set to reproduce figures 5 and 6 of [Vidal's original paper](https://arxiv.org/abs/cond-mat/0605597).
+A **single** header file for itebd calculations based on the [ITensor library](http://itensor.org).
+
+I have created a few examples to reproduce figures of some arXiv papers that utilized iTEBD. Please `make` the corresponding file's name you want to compile. For example, `make 1503.02010` generates executable `1503.02010` that produces figure 1 of arXiv:1503.02010.
+
+By default, it is now set to reproduce figures 5 and 6 of [Vidal's original paper](https://arxiv.org/abs/cond-mat/0605597).
 
 # Installation and Linking
 
@@ -22,7 +26,7 @@ itebd<IndexType,z> sys(ampo,QNA,QNB,Chi0);
 
 * `IndexType` could be `Index` or `IQIndex`, depending on whether you want to use symmetries.
 
-* `z` optional and defaults to 2. The coordination number.
+* `z` optional and defaults to 2. The coordination number. Could be useful for exotic system with >2 neighbors e.g. [arXiv:0712.1806](https://arxiv.org/abs/0712.1806.pdf) (I have not tried).
 
 * `ampo` is a two-site [AutoMPO](http://itensor.org/docs.cgi?page=classes/autompo) object of ITensor. Hamiltonian is specified by `ampo`. The [sites](http://itensor.org/docs.cgi?page=classes/siteset) must be of type `IQIndex`.
 
