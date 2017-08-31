@@ -14,7 +14,7 @@ int main ( int argc, char *argv[] ) {
     {
         std::string output_file("fig3b.dat");
         gi = 0.4; gf=-0.4;
-        int M=50;
+        int M=100;
         double thres=1E-9,dt=0.01,T=150;
         auto ampo0 = AutoMPO(sites);
         ampo0 +=  -4,"Sz", 1, "Sz", 2;

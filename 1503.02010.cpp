@@ -6,7 +6,7 @@ using namespace itensor;
 
 
 int main ( int argc, char *argv[] ) {
-    std::string output_file("fig1.dat");
+    std::string output_file("fig1_U=4.dat");
     double thres=1E-8,M=300, dt=0.002, T=3;
     double U(4);
     unsigned z(2); //coordination number

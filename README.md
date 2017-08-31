@@ -2,17 +2,31 @@
 
 A **single** header file for itebd calculations based on the [ITensor library](http://itensor.org).
 
-I have created a few examples to reproduce figures of some arXiv papers that utilized iTEBD. Please `make` the corresponding file's name you want to compile. For example, `make 1503.02010` generates executable `1503.02010` that produces figure 1 of [arXiv:1503.02010](https://arxiv.org/abs/1503.02010).
-
-By default, it is now set to reproduce figures 5 and 6 of [Vidal's original paper](https://arxiv.org/abs/cond-mat/0605597).
-
 # Installation and Linking
 
-Refer to [ITensor's instruction](http://itensor.org/docs.cgi?page=install). You just need to add
+Refer to [ITensor's instruction](http://itensor.org/docs.cgi?page=install) for using iTensor. You just need to add
 
 `#include "itebd.h"`
 
 and make sure the header file is within path.
+
+# Examples
+
+I have created a few examples to reproduce figures of some arXiv papers that utilized iTEBD:
+
+* [arXiv:cond-mat/0605597](https://arxiv.org/abs/cond-mat/0605597) (figs. 5 and 6)
+
+* [arXiv:0907.3206](https://arxiv.org/abs/0907.3206) (fig.3b)
+
+* [arXiv:1302.4460](https://arxiv.org/abs/1302.4460) (fig.2a)
+
+* [arXiv:1503.02010](https://arxiv.org/abs/1503.02010) (fig.1a)
+
+
+Please `make` the corresponding file's name you want to compile. For example, `make 1503.02010` generates executable `1503.02010` that produces figure 1 of [arXiv:1503.02010](https://arxiv.org/abs/1503.02010).
+
+By default, it is now set to reproduce figures 5 and 6 of [Vidal's original paper](https://arxiv.org/abs/cond-mat/0605597).
+
 
 # Basic Usage
 

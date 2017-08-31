@@ -8,7 +8,7 @@ using namespace itensor;
 const std::complex<double> I(0.0,1.0);
 
 int main ( int argc, char *argv[] ) {
-    std::string output_file("fig1c.dat");
+    std::string output_file("fig2a.dat");
     int z(2);
     double D(0.25),A(1),Omega(1.4);
     double thres=1E-8, M=100;
